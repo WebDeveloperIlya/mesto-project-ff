@@ -42,7 +42,7 @@
   </footer>
   <div class="popup popup_type_edit">
     <div class="popup__content">
-      <button type="button" class="popup__close"></button>
+      <button type="button" class="popup__close" onclick="closeForm(this)"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit-profile">
         <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
@@ -53,18 +53,22 @@
   </div>
   <div class="popup popup_type_new-card">
     <div class="popup__content">
-      <button type="button" class="popup__close"></button>
+      <button type="button" class="popup__close" onclick="closeForm(this)"></button>
       <h3 class="popup__title">Новое место</h3>
       <form class="popup__form" name="new-place">
         <input type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
         <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+        <button 
+        type="submit" 
+        class="button popup__button"
+        onclick="newCard(NewCardName.value, newCardLink.value)"
+        >Сохранить</button>
       </form>
     </div>
   </div>
   <div class="popup popup_type_image">
     <div class="popup__content popup__content_content_image">
-      <button type="button" class="popup__close"></button>
+      <button type="button" class="popup__close" onclick="closeForm(this)"></button>
       <img src="" alt="" class="popup__image">
       <p class="popup__caption"></p>
     </div>
