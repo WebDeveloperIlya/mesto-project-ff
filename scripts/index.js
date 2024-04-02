@@ -36,9 +36,6 @@ const placeInfo = initialCards.map(function (item) {
 function render() {
   placeInfo.forEach(renderCard);
 }
-const NewCardName = document.querySelector('.popup__input_type_card-name');
-const newCardLink = document.querySelector('.popup__input popup__input_type_url');
-
 
 function renderCard({ name, link }) {
   const placeElement = cardTemplate
@@ -52,9 +49,15 @@ function renderCard({ name, link }) {
 
 render();
 
+const NewCardName = document.querySelector('.popup__input_type_card-name');
+const newCardLink = document.querySelector('.popup__input popup__input_type_url');
+const submitNewCard = document.querySelector('.submit');
 
+submitNewCard.addEventListener('click', function(){
+  renderCard(NewCardName.value(), newCardLink.value());
+})
 
-function newCard({NewCardName, newCardLink}){
+function newCard(){
   const placeElement = cardTemplate
     .querySelector(".card")
     .cloneNode(true);
