@@ -2,8 +2,6 @@ import {initialCards} from '../scripts/components/cards.js'
 import {openPopup, closePopup} from '../scripts/components/modal.js'
 import './index.css';
 
-
-
 const cardsContainer = document.querySelector(".places__list");
 const template = document.querySelector("#card-template").content;
 
