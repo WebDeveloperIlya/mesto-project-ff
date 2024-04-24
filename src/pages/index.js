@@ -1,5 +1,8 @@
+import {initialCards} from '../scripts/components/cards.js'
+import {openPopup, closePopup} from '../scripts/components/modal.js'
 import './index.css';
-import '../scripts/cards.js'
+
+
 
 const cardsContainer = document.querySelector(".places__list");
 const template = document.querySelector("#card-template").content;
@@ -16,7 +19,6 @@ const cardLink = document.querySelector(".popup__input_type_url");
 const popupProfile = document.querySelector(".popup_type_edit");
 const cardPopup = document.querySelector(".popup_type_new-card");
 const imagePopup = document.querySelector(".popup_type_image");
-
 
 const photoItem = document.querySelector(".popup__image");
 const photoDescription = document.querySelector(".popup__caption");
@@ -97,13 +99,7 @@ function openPhoto(alt, src) {
   openPopup(imagePopup);
 }
 
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-}
 
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-}
 
 initialCards.forEach(function (item) {
   cardsContainer.prepend(newCard(item.link, item.name));
