@@ -1,15 +1,14 @@
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add("popup_opened");
-  popup.addEventListener('keydown', function (e){
+  document.addEventListener('keydown', function (e){
   if (e.key === 'Escape'){
     closePopup(popup)
+    EventTarget.removeEventListener;
+    console.log('esscape')
   }
   })
-  popup.addEventListener('click', closePopup(popup))
 }
 
-function closePopup(popup) {
+export function closePopup(popup) {
   popup.classList.remove("popup_opened");
 }
-
-export {openPopup, closePopup}
