@@ -23,7 +23,15 @@ import {
   cardPopupCloseButton
 } from '../scripts/components/const.js'
 
-import {newCard} from '../scripts/components/card.js'
+import {createCard} from '../scripts/components/card.js'
+
+export function openPhoto(alt, src) {
+  photoItem.src = src;
+  photoItem.alt = alt;
+  photoDescription.textContent = alt;
+  openPopup(imagePopup);
+}
+
 
 profileEditButton.addEventListener("click", function () {
   profileNameInput.value = profileName.textContent
@@ -43,30 +51,26 @@ cardPopupCloseButton.addEventListener("click", function () {
   closePopup(cardPopup);
 });
 
-imagePopup.addEventListener("click", function () {
-  closePopup(imagePopup);
-});
-
-profileFormElement.addEventListener("submit", function (element) {
-  element.preventDefault();
-  profileEdit();
+profileFormElement.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+  editProfile();
   closePopup(popupProfile);
 });
 
-cardFormElement.addEventListener("submit", function (element) {
-  element.preventDefault();
-  cardsContainer.prepend(newCard(cardLink.value, cardName.value));
+cardFormElement.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+  cardsContainer.prepend(createCard(cardLink.value, cardName.value));
   closePopup(cardPopup);
   cardLink.value = null;
   cardName.value = null;
 });
 
-function profileEdit() {
+function editProfile() {
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
 }
 
 
 initialCards.forEach(function (item) {
-  cardsContainer.prepend(newCard(item.link, item.name));
+  cardsContainer.prepend(createCard(item.link, item.name));
 });

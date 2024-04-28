@@ -1,14 +1,16 @@
+function handleEscape(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
+}
+
 export function openPopup(popup) {
   popup.classList.add("popup_opened");
-  document.addEventListener('keydown', function (e){
-  if (e.key === 'Escape'){
-    closePopup(popup)
-    EventTarget.removeEventListener;
-    console.log('esscape')
-  }
-  })
+  document.addEventListener('keydown', handleEscape); 
 }
 
 export function closePopup(popup) {
+  document.removeEventListener('keydown', handleEscape); 
   popup.classList.remove("popup_opened");
 }
