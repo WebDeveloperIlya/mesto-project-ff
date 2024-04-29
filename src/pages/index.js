@@ -14,6 +14,8 @@ import {
   profileDescription,
   cardName,
   cardLink,
+  photoItem,
+  photoDescription,
   popupProfile,
   cardPopup,
   imagePopup,
