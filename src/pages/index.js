@@ -14,26 +14,17 @@ import {
   profileDescription,
   cardName,
   cardLink,
-  photoItem,
-  photoDescription,
   popupProfile,
   cardPopup,
   imagePopup,
   profileFormElement,
   cardFormElement,
   popupProfileCloseButton,
+  popupImageCloseButton,
   cardPopupCloseButton
 } from '../scripts/components/const.js'
 
 import {createCard} from '../scripts/components/card.js'
-
-export function openPhoto(alt, src) {
-  photoItem.src = src;
-  photoItem.alt = alt;
-  photoDescription.textContent = alt;
-  openPopup(imagePopup);
-}
-
 
 profileEditButton.addEventListener("click", function () {
   profileNameInput.value = profileName.textContent
@@ -47,6 +38,10 @@ profileAddButton.addEventListener("click", function () {
 
 popupProfileCloseButton.addEventListener("click", function () {
   closePopup(popupProfile);
+});
+
+popupImageCloseButton.addEventListener("click", function () {
+  closePopup(imagePopup);
 });
 
 cardPopupCloseButton.addEventListener("click", function () {

@@ -21,4 +21,5 @@ export const profileFormElement = popupProfile.querySelector(".popup__form");
 export const cardFormElement = cardPopup.querySelector(".popup__form");
 
 export const popupProfileCloseButton = document.querySelector(".popup__close");
+export const popupImageCloseButton = document.querySelector(".popup__close-image");
 export const cardPopupCloseButton = document.querySelector(".card__delete-button");
