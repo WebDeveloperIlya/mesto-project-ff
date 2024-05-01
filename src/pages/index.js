@@ -3,6 +3,7 @@ import {initialCards} from '../scripts/components/cards.js'
 
 import {openPopup, closePopup} from '../scripts/components/modal.js'
 import './index.css';
+import {deleteCard, likeCard} from '../scripts/components/card.js'
 
 import {
   cardsContainer,
@@ -18,11 +19,20 @@ import {
   cardPopup,
   imagePopup,
   profileFormElement,
+  photoItem,
+  photoDescription,
   cardFormElement,
   popupProfileCloseButton,
   popupImageCloseButton,
   cardPopupCloseButton
 } from '../scripts/components/const.js'
+
+export function handleImageClick(link, name) {
+  photoItem.src = link;
+  photoItem.alt = name;
+  photoDescription.textContent = name;
+  openPopup(imagePopup);
+};
 
 import {createCard} from '../scripts/components/card.js'
 
@@ -69,5 +79,5 @@ function editProfile() {
 
 
 initialCards.forEach(function (item) {
-  cardsContainer.prepend(createCard(item.link, item.name));
+  cardsContainer.prepend(createCard(item.link, item.name, deleteCard, likeCard, handleImageClick ));
 });
