@@ -66,7 +66,7 @@ profileFormElement.addEventListener("submit", function (evt) {
 
 cardFormElement.addEventListener("submit", function (evt) {
   evt.preventDefault();
-  cardsContainer.prepend(createCard(cardLink.value, cardName.value));
+  cardsContainer.prepend(createCard(cardLink.value, cardName.value, deleteCard, likeCard, handleImageClick));
   closePopup(cardPopup);
   cardLink.value = null;
   cardName.value = null;
