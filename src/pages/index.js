@@ -1,10 +1,15 @@
-import {initialCards} from '../scripts/components/cards.js'
-
+import '../scripts/components/validation.js';
 
 import {openPopup, closePopup} from '../scripts/components/modal.js'
 import './index.css';
-import {deleteCard, likeCard} from '../scripts/components/card.js'
+import {createCard, deleteCard, likeCard} from '../scripts/components/card.js'
 
+import {
+  addServerCards,
+  userInfo,
+  newUserInfo,
+  newCardServer
+} from '../scripts/components/api.js'
 import {
   cardsContainer,
   profileEditButton,
@@ -24,7 +29,10 @@ import {
   cardFormElement,
   popupProfileCloseButton,
   popupImageCloseButton,
-  cardPopupCloseButton
+  cardPopupCloseButton,
+  editAvatarButton,
+  popupEditAvatar,
+  popupAvatarClose
 } from '../scripts/components/const.js'
 
 export function handleImageClick(link, name) {
@@ -34,7 +42,9 @@ export function handleImageClick(link, name) {
   openPopup(imagePopup);
 };
 
-import {createCard} from '../scripts/components/card.js'
+editAvatarButton.addEventListener('click', function () {
+  openPopup(popupEditAvatar)
+})
 
 profileEditButton.addEventListener("click", function () {
   profileNameInput.value = profileName.textContent
@@ -45,6 +55,11 @@ profileEditButton.addEventListener("click", function () {
 profileAddButton.addEventListener("click", function () {
   openPopup(cardPopup);
 });
+
+popupAvatarClose.addEventListener("click", function () {
+  closePopup(popupEditAvatar);
+});
+
 
 popupProfileCloseButton.addEventListener("click", function () {
   closePopup(popupProfile);
@@ -64,9 +79,15 @@ profileFormElement.addEventListener("submit", function (evt) {
   closePopup(popupProfile);
 });
 
+popupEditAvatar.querySelector('.popup__form-avatar').addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  editAvatarButton.style.background = `url(${evt.querySelector('.popup__input_type_avatar')})`;
+})
+
 cardFormElement.addEventListener("submit", function (evt) {
   evt.preventDefault();
-  cardsContainer.prepend(createCard(cardLink.value, cardName.value, deleteCard, likeCard, handleImageClick));
+  cardsContainer.prepend(createCard('', cardLink.value, '0', cardName.value, deleteCard, likeCard, handleImageClick));
+  newCardServer(cardLink.value, cardName.value)
   closePopup(cardPopup);
   cardLink.value = null;
   cardName.value = null;
@@ -75,9 +96,9 @@ cardFormElement.addEventListener("submit", function (evt) {
 function editProfile() {
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
+
+  newUserInfo(profileNameInput.value, profileDescriptionInput.value)
 }
 
-
-initialCards.forEach(function (item) {
-  cardsContainer.prepend(createCard(item.link, item.name, deleteCard, likeCard, handleImageClick ));
-});
+addServerCards();
+userInfo();

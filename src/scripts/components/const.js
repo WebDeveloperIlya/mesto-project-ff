@@ -23,3 +23,7 @@ export const cardFormElement = cardPopup.querySelector(".popup__form");
 export const popupProfileCloseButton = document.querySelector(".popup__close");
 export const popupImageCloseButton = document.querySelector(".popup__close-image");
 export const cardPopupCloseButton = document.querySelector(".card__delete-button");
+
+export const editAvatarButton = document.querySelector(".profile__avatar")
+export const popupEditAvatar = document.querySelector(".popup_type_new-avatar")
+export const popupAvatarClose = document.querySelector('.popup__close-avatar')
