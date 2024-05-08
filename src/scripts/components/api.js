@@ -1,120 +1,135 @@
-import {cardsContainer} from './const.js'
-import {createCard, deleteCard, likeCard} from './card.js'
-import {handleImageClick} from '../../pages/index.js'
-
-/* Запрос карточек и последующее добавление их */
-export function addServerCards(){ 
-  fetch('https://nomoreparties.co/v1/wff-cohort-12/cards', {
-  headers: {
-    authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e'
-  }
-})
-  .then(res => res.json())
-  .then((result) => {
-    Array.from(result).forEach((item) => {
-      cardsContainer.prepend(createCard(
-        item._id, 
-        item.link, 
-        item.name, 
-        item.likes.length, 
-        deleteCard, 
-        likeCard, 
-        handleImageClick ));
-    });
-  });
-}
-
-/* Запрос данных о пользователе и подставление данных в шапке профиля */
-export function userInfo() {
-  fetch('https://nomoreparties.co/v1/wff-cohort-12/users/me', {
-  headers: {
-    authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e'
-  }
-})
-  .then(res => res.json())
-  .then((result) => {
-    const Name = result.name
-    const About = result.about
-    
-    document.querySelector('.profile__title').textContent = Name;
-    document.querySelector('.profile__description').textContent = About;
-    document.querySelector('.profile__image').style.backgroundImage = `url(${result.avatar})`
-  })
-  newUserInfo()
-}
-
-/* Обновление данных о пользователе */
-export function newUserInfo(name, about){
-  fetch('https://nomoreparties.co/v1/wff-cohort-12/users/me', {
-  method: 'PATCH',
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/wff-cohort-12',
   headers: {
     authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e',
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify({
-    name: name,
-    about: about
+}
+
+export const getInitialCards = () => {
+  return fetch(`${config.baseUrl}/cards`, {
+    headers: config.headers
   })
-});
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+}
+
+/* Запрос данных о пользователе и подставление данных в шапке профиля */
+export const getUserInfo = () => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    headers: config.headers
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
+}
+
+/* Обновление данных о пользователе */
+export const editUserInfo = () =>{
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'PATCH',
+    headers: config.headers,
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
 }
 
 /* Функция добавления карточки на сервер */
-export function newCardServer(cardLink, cardName) {
-  fetch('https://nomoreparties.co/v1/wff-cohort-12/cards', {
+export const addCard = () => {
+  return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
-    headers: {
-      authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: cardName,
-      link: cardLink
-    })
-})}
+    headers: config.headers,
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
+}
 
 /* Удаление карточки с сервера */
 export function deleteServerCard(id){
-  fetch(`https://nomoreparties.co/v1/wff-cohort-12/cards/${id}`, {
+  fetch(`${config.baseUrl}${id}`, {
     method: 'DELETE',
-    headers: {
-      authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e',
-      'Content-Type': 'application/json'
+    headers: config.headers
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
     }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
 }
 
 /* Поставить лайк на карточку */
 export function putLikeOnCard(id){
-  fetch(`https://nomoreparties.co/v1/wff-cohort-12/cards/likes/${id}`, {
+  fetch(`${config.baseUrl}${id}/likes`, {
     method: 'PUT',
-    headers: {
-      authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e',
-      'Content-Type': 'application/json'
+    headers: config.headers
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
     }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
 }
 
 /* Удалить лайк с карточки */
 export function removeLikeOnCard(id){
-  fetch(`https://nomoreparties.co/v1/wff-cohort-12/cards/likes/${id}`, {
+  fetch(`${config.baseUrl}${id}/likes`, {
     method: 'DELETE',
-    headers: {
-      authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e',
-      'Content-Type': 'application/json'
+    headers: config.headers
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
     }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
 }
 
 /* Смена аватара */
 export function newAvatar(link){
-  fetch('https://nomoreparties.co/v1/wff-cohort-12/users/me/avatar', {
+  fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
-    headers: {
-      authorization: 'b13f5d37-5775-4f5a-b71e-05763fae6d5e',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: {
       avatar: link
     }
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
 }

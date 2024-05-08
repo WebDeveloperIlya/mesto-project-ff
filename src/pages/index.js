@@ -1,14 +1,15 @@
 import '../scripts/components/validation.js';
 
+import {enableValidation} from '../scripts/components/validation.js'
+
 import {openPopup, closePopup} from '../scripts/components/modal.js'
 import './index.css';
 import {createCard, deleteCard, likeCard} from '../scripts/components/card.js'
 
 import {
-  addServerCards,
-  userInfo,
-  newUserInfo,
-  newCardServer
+  getInitialCards,
+  getUserInfo,
+  editUserInfo,
 } from '../scripts/components/api.js'
 import {
   cardsContainer,
@@ -42,7 +43,8 @@ export function handleImageClick(link, name) {
   openPopup(imagePopup);
 };
 
-editAvatarButton.addEventListener('click', function () {
+editAvatarButton.addEventListener('click', function (evt) {
+  evt.preventDefault();
   openPopup(popupEditAvatar)
 })
 
@@ -59,7 +61,6 @@ profileAddButton.addEventListener("click", function () {
 popupAvatarClose.addEventListener("click", function () {
   closePopup(popupEditAvatar);
 });
-
 
 popupProfileCloseButton.addEventListener("click", function () {
   closePopup(popupProfile);
@@ -86,7 +87,7 @@ popupEditAvatar.querySelector('.popup__form-avatar').addEventListener('submit', 
 
 cardFormElement.addEventListener("submit", function (evt) {
   evt.preventDefault();
-  cardsContainer.prepend(createCard('', cardLink.value, '0', cardName.value, deleteCard, likeCard, handleImageClick));
+  cardsContainer.prepend(createCard('', cardLink.value, cardName.value, '0',  deleteCard, likeCard, handleImageClick));
   newCardServer(cardLink.value, cardName.value)
   closePopup(cardPopup);
   cardLink.value = null;
@@ -97,8 +98,46 @@ function editProfile() {
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
 
-  newUserInfo(profileNameInput.value, profileDescriptionInput.value)
+  editUserInfo(profileNameInput.value, profileDescriptionInput.value)
 }
 
-addServerCards();
-userInfo();
+
+
+Promise.all([getUserInfo(), getInitialCards()])
+  .then((values) => {
+    console.log(values)
+
+    profileName.textContent = values[0].about
+    profileDescription.textContent = values[0].name;
+    values[1].forEach((card) => {
+      console.log(card)
+      createCard(
+        card._id, 
+        card.link, 
+        card.name,
+        card.likes.length,
+        deleteCard, 
+        likeCard, 
+        handleImageClick)
+    })
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+
+
+
+const formList = Array.from(document.querySelectorAll('.popup__form'));
+formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
+  })
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: '.popup__button-inactive',
+  errorClass: '.popup__input-error_active'
+}); 

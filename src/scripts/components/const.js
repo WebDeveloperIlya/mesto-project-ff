@@ -17,8 +17,8 @@ export const imagePopup = document.querySelector(".popup_type_image");
 export const photoItem = document.querySelector(".popup__image");
 export const photoDescription = document.querySelector(".popup__caption");
 
-export const profileFormElement = popupProfile.querySelector(".popup__form");
-export const cardFormElement = cardPopup.querySelector(".popup__form");
+export const profileFormElement = document.querySelector(".popup__form-edit");
+export const cardFormElement = document.querySelector(".popup__form-card");
 
 export const popupProfileCloseButton = document.querySelector(".popup__close");
 export const popupImageCloseButton = document.querySelector(".popup__close-image");

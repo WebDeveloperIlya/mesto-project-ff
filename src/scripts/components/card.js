@@ -29,7 +29,7 @@ export function createCard(id, link, name, countLikes, deleteCard, likeCard, han
   card.querySelector(".card__like-button").addEventListener("click", (evt) => {
     likeCard(evt, id)
   });
-  card.querySelector('.countLikes').innerHTML = countLikes;
+  card.querySelector('.countLikes').textContent = countLikes;
 
   // Открытие попапа картинки при нажатии на нее
   cardImg.addEventListener("click", () => handleImageClick(link, name));

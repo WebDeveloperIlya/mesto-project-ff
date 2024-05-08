@@ -63,7 +63,7 @@
         <input type="text" minlength="2" maxlength="200" name="description" id="popup__input-link" class="popup__input popup__input_type_description" placeholder="Занятие" required>
         <span class="popup__input-link-error"></span>
         
-        <button type="button" class="button popup__button">Сохранить</button>
+        <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
@@ -71,7 +71,7 @@
     <div class="popup__content">
       <button type="button" class="card__delete-button"></button>
       <h3 class="popup__title">Новое место</h3>
-      <form class="popup__form" name="new-place">
+      <form class="popup__form popup__form-card" name="new-place" novalidate>
         <input type="text" minlength="2" maxlength="30" name="place-name" id="popup__input-name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
         <span class="popup__input-name-error"></span>
 
