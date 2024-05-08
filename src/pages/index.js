@@ -91,7 +91,7 @@ document.querySelector('.popup__form-avatar').addEventListener('submit', functio
 cardFormElement.addEventListener("submit", function (evt) {
   evt.preventDefault();
   cardsContainer.prepend(createCard('', cardLink.value, cardName.value, '0',  deleteCard, likeCard, handleImageClick));
-  addCard()
+  addCard(cardLink.value,cardName.value)
   closePopup(cardPopup);
   cardLink.value = null;
   cardName.value = null;
@@ -104,13 +104,11 @@ function editProfile() {
 
 }
 
-
-
 Promise.all([getUserInfo(), getInitialCards()])
   .then((values) => {
     console.log(values)
 
-    profileName.textContent = values[0].about
+    profileName.textContent = values[0].about;
     profileDescription.textContent = values[0].name;
     values[1].forEach((card) => {
       

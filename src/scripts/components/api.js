@@ -56,10 +56,14 @@ export const editUserInfo = (name, description) =>{
 }
 
 /* Функция добавления карточки на сервер */
-export const addCard = () => {
+export const addCard = (link, name) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
+    body: JSON.stringify({
+      name: name,
+      link: link
+    })
   })
   .then(res => {
     if (res.ok) {
@@ -89,7 +93,7 @@ export function deleteServerCard(id){
 
 /* Поставить лайк на карточку */
 export function putLikeOnCard(id){
-  fetch(`${config.baseUrl}${id}/likes`, {
+  fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: 'PUT',
     headers: config.headers
   })
@@ -105,7 +109,7 @@ export function putLikeOnCard(id){
 
 /* Удалить лайк с карточки */
 export function removeLikeOnCard(id){
-  fetch(`${config.baseUrl}${id}/likes`, {
+  fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: 'DELETE',
     headers: config.headers
   })
@@ -124,9 +128,9 @@ export function newAvatar(link){
   fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
-    body: {
+    body: JSON.stringify({
       avatar: link
-    }
+    })
   })
   .then(res => {
     if (res.ok) {
