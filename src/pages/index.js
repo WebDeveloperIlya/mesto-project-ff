@@ -10,6 +10,7 @@ import {
   getInitialCards,
   getUserInfo,
   editUserInfo,
+  newAvatar
 } from '../scripts/components/api.js'
 import {
   cardsContainer,
@@ -80,9 +81,11 @@ profileFormElement.addEventListener("submit", function (evt) {
   closePopup(popupProfile);
 });
 
-popupEditAvatar.querySelector('.popup__form-avatar').addEventListener('submit', function(evt) {
+document.querySelector('.popup__form-avatar').addEventListener('submit', function(evt) {
   evt.preventDefault();
+  newAvatar(evt.querySelector('.popup__input_type_avatar'))
   editAvatarButton.style.background = `url(${evt.querySelector('.popup__input_type_avatar')})`;
+  closePopup(querySelector('.popup__form-avatar'))
 })
 
 cardFormElement.addEventListener("submit", function (evt) {
@@ -95,10 +98,10 @@ cardFormElement.addEventListener("submit", function (evt) {
 });
 
 function editProfile() {
+  editUserInfo()
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
 
-  editUserInfo(profileNameInput.value, profileDescriptionInput.value)
 }
 
 
@@ -110,8 +113,8 @@ Promise.all([getUserInfo(), getInitialCards()])
     profileName.textContent = values[0].about
     profileDescription.textContent = values[0].name;
     values[1].forEach((card) => {
-      console.log(card)
-      createCard(
+      
+      let newCard = createCard(
         card._id, 
         card.link, 
         card.name,
@@ -119,7 +122,9 @@ Promise.all([getUserInfo(), getInitialCards()])
         deleteCard, 
         likeCard, 
         handleImageClick)
+      document.querySelector('.places__list').append(newCard)
     })
+    
   })
   .catch((err) => {
     console.log(err)

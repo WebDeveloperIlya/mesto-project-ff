@@ -37,7 +37,7 @@ export const getUserInfo = () => {
 
 /* Обновление данных о пользователе */
 export const editUserInfo = () =>{
-  return fetch(`${config.baseUrl}/cards`, {
+  return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
   })
