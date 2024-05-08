@@ -91,14 +91,14 @@ document.querySelector('.popup__form-avatar').addEventListener('submit', functio
 cardFormElement.addEventListener("submit", function (evt) {
   evt.preventDefault();
   cardsContainer.prepend(createCard('', cardLink.value, cardName.value, '0',  deleteCard, likeCard, handleImageClick));
-  newCardServer(cardLink.value, cardName.value)
+  addCard()
   closePopup(cardPopup);
   cardLink.value = null;
   cardName.value = null;
 });
 
 function editProfile() {
-  editUserInfo()
+  editUserInfo(profileNameInput.value, profileDescriptionInput.value)
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
 

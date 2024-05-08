@@ -36,10 +36,14 @@ export const getUserInfo = () => {
 }
 
 /* Обновление данных о пользователе */
-export const editUserInfo = () =>{
+export const editUserInfo = (name, description) =>{
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
+    body: JSON.stringify({
+      name: name,
+      about: description
+    })
   })
   .then(res => {
     if (res.ok) {
