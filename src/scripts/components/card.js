@@ -5,16 +5,22 @@ import { deleteServerCard, putLikeOnCard, removeLikeOnCard } from './api.js'
 export function likeCard(evt, id) {
   evt.target.classList.toggle("card__like-button_is-active");
   if (evt.target.classList === 'card__like-button_is-active'){
-    putLikeOnCard(id)
+    putLikeOnCard({id})
+
+    .catch(err => console.log(`Ошибка.....: ${err}`))
   } else {
     removeLikeOnCard(id)
+
+    .catch(err => console.log(`Ошибка.....: ${err}`))
   }
   
 }
 
 export function deleteCard(evt, id) {
+  deleteServerCard(id, evt)
+  .catch(err => console.log(`Ошибка.....: ${err}`))
+
   evt.target.closest(".card").remove();
-  deleteServerCard(id)
 }
 
 export function createCard(id, link, name, countLikes, deleteCard, likeCard, handleImageClick ) {

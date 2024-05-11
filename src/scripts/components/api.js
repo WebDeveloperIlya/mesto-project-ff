@@ -14,10 +14,11 @@ export const getInitialCards = () => {
       if (res.ok) {
         return res.json();
       }
-
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    })
+
+    .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Запрос данных о пользователе и подставление данных в шапке профиля */
@@ -29,7 +30,6 @@ export const getUserInfo = () => {
     if (res.ok) {
       return res.json();
     }
-
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
@@ -49,10 +49,11 @@ export const editUserInfo = (name, description) =>{
     if (res.ok) {
       return res.json();
     }
-
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
+
+  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Функция добавления карточки на сервер */
@@ -69,31 +70,34 @@ export const addCard = (link, name) => {
     if (res.ok) {
       return res.json();
     }
-
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
+
+  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Удаление карточки с сервера */
-export function deleteServerCard(id){
-  fetch(`${config.baseUrl}${id}`, {
+export function deleteServerCard(id, evt){
+  return fetch(`${config.baseUrl}/cards/${id}`, {
     method: 'DELETE',
     headers: config.headers
   })
   .then(res => {
+    evt.target.closest(".card").remove();
     if (res.ok) {
       return res.json();
     }
-
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
+
+  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Поставить лайк на карточку */
 export function putLikeOnCard(id){
-  fetch(`${config.baseUrl}/cards/likes/${id}`, {
+  return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: 'PUT',
     headers: config.headers
   })
@@ -101,15 +105,16 @@ export function putLikeOnCard(id){
     if (res.ok) {
       return res.json();
     }
-
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
+
+  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Удалить лайк с карточки */
 export function removeLikeOnCard(id){
-  fetch(`${config.baseUrl}/cards/likes/${id}`, {
+  return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: 'DELETE',
     headers: config.headers
   })
@@ -117,15 +122,16 @@ export function removeLikeOnCard(id){
     if (res.ok) {
       return res.json();
     }
-
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
+
+  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Смена аватара */
 export function newAvatar(link){
-  fetch(`${config.baseUrl}/users/me/avatar`, {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
@@ -136,8 +142,9 @@ export function newAvatar(link){
     if (res.ok) {
       return res.json();
     }
-
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
+
+  .catch(err => console.log(`Ошибка.....: ${err}`))
 }

@@ -9,6 +9,7 @@ import {createCard, deleteCard, likeCard} from '../scripts/components/card.js'
 import {
   getInitialCards,
   getUserInfo,
+  addCard,
   editUserInfo,
   newAvatar
 } from '../scripts/components/api.js'
@@ -92,6 +93,7 @@ cardFormElement.addEventListener("submit", function (evt) {
   evt.preventDefault();
   cardsContainer.prepend(createCard('', cardLink.value, cardName.value, '0',  deleteCard, likeCard, handleImageClick));
   addCard(cardLink.value,cardName.value)
+  .catch(err => console.log(`Ошибка.....: ${err}`))
   closePopup(cardPopup);
   cardLink.value = null;
   cardName.value = null;
@@ -99,6 +101,7 @@ cardFormElement.addEventListener("submit", function (evt) {
 
 function editProfile() {
   editUserInfo(profileNameInput.value, profileDescriptionInput.value)
+  .catch(err => console.log(`Ошибка.....: ${err}`))
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
 
@@ -108,8 +111,10 @@ Promise.all([getUserInfo(), getInitialCards()])
   .then((values) => {
     console.log(values)
 
-    profileName.textContent = values[0].about;
-    profileDescription.textContent = values[0].name;
+    profileName.textContent = values[0].name;
+    profileDescription.textContent = values[0].about;
+    editAvatarButton.style.background = `url(${values[0].avatar})`;
+
     values[1].forEach((card) => {
       
       let newCard = createCard(
