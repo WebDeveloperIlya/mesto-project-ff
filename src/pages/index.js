@@ -1,6 +1,6 @@
 import '../scripts/components/validation.js';
 
-import {enableValidation} from '../scripts/components/validation.js'
+import {enableValidation, clearValidation} from '../scripts/components/validation.js'
 
 import {openPopup, closePopup} from '../scripts/components/modal.js'
 import './index.css';
@@ -49,16 +49,42 @@ export function handleImageClick(link, name) {
 editAvatarButton.addEventListener('click', function (evt) {
   evt.preventDefault();
   openPopup(popupEditAvatar)
+  clearValidation(document.querySelector('.popup__form-avatar'), {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button-inactive',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_active'
+  })
 })
 
 profileEditButton.addEventListener("click", function () {
   profileNameInput.value = profileName.textContent
   profileDescriptionInput.value = profileDescription.textContent
   openPopup(popupProfile);
+  
+  clearValidation(profileFormElement, {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button-inactive',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_active'
+  })
 });
 
 profileAddButton.addEventListener("click", function () {
   openPopup(cardPopup);
+
+  clearValidation(cardFormElement, {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button-inactive',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_active'
+  })
 });
 
 popupAvatarClose.addEventListener("click", function () {

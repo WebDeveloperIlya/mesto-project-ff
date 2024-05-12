@@ -8,14 +8,14 @@ export function likeCard(evt, id) {
     removeLikeOnCard(id)
     .then((res)=>{
       evt.target.classList.remove("card__like-button_is-active");
-      evt.target.closest(".countLikes") == res.likes.length;
+      document.querySelector(".countLikes").textContent = res.likes.length;
     })
     .catch(err => console.log(`Ошибка.....: ${err}`))
   } else {
     putLikeOnCard(id)
     .then((res)=>{
       evt.target.classList.add("card__like-button_is-active");
-      evt.target.closest(".countLikes") == res.likes.length;
+      document.querySelector(".countLikes").textContent = res.likes.length;
     })
 
     .catch(err => console.log(`Ошибка.....: ${err}`))
