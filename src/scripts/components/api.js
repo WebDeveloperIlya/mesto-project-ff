@@ -57,13 +57,13 @@ export const editUserInfo = (name, description) =>{
 }
 
 /* Функция добавления карточки на сервер */
-export const addCard = (link, name) => {
+export const addCard = (card) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
-      name: name,
-      link: link
+      name: card.name,
+      link: card.link
     })
   })
   .then(res => {

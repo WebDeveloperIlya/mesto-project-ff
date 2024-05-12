@@ -35,7 +35,8 @@ import {
   cardPopupCloseButton,
   editAvatarButton,
   popupEditAvatar,
-  popupAvatarClose
+  popupAvatarClose,
+  popupAvatarInput
 } from '../scripts/components/const.js'
 
 export function handleImageClick(link, name) {
@@ -76,35 +77,73 @@ cardPopupCloseButton.addEventListener("click", function () {
   closePopup(cardPopup);
 });
 
-profileFormElement.addEventListener("submit", function (evt) {
-  evt.preventDefault();
-  editProfile();
-  closePopup(popupProfile);
-});
+profileFormElement.addEventListener("submit", function (evt){
+  submitEditProfile(evt);
+})
 
 document.querySelector('.popup__form-avatar').addEventListener('submit', function(evt) {
-  evt.preventDefault();
-  newAvatar(evt.querySelector('.popup__input_type_avatar'))
-  editAvatarButton.style.background = `url(${evt.querySelector('.popup__input_type_avatar')})`;
-  closePopup(querySelector('.popup__form-avatar'))
+  submitNewAvatar(evt, popupAvatarInput.value)
 })
 
 cardFormElement.addEventListener("submit", function (evt) {
-  evt.preventDefault();
-  cardsContainer.prepend(createCard('', cardLink.value, cardName.value, '0',  deleteCard, likeCard, handleImageClick));
-  addCard(cardLink.value,cardName.value)
-  .catch(err => console.log(`Ошибка.....: ${err}`))
-  closePopup(cardPopup);
-  cardLink.value = null;
-  cardName.value = null;
+  submitAddNewCard(evt);
 });
 
-function editProfile() {
-  editUserInfo(profileNameInput.value, profileDescriptionInput.value)
-  .catch(err => console.log(`Ошибка.....: ${err}`))
+function submitNewAvatar(evt, input){
+  evt.preventDefault();
+  evt.submitter.textContent = "Сохранение..."; 
+
+  newAvatar(input)
+    .then((res)=>{
+      console.log(res)
+      editAvatarButton.style.background = `url(${res.avatar})`
+      closePopup(popupEditAvatar); 
+    })
+    .catch((error) => console.log(error)) 
+    .finally(() => { 
+      evt.submitter.textContent = "Создать"; 
+    }); 
+}
+
+
+function submitAddNewCard(evt) { 
+  evt.preventDefault(); 
+  evt.submitter.textContent = "Сохранение..."; 
+
+  const card = { 
+    name: cardName.value, 
+    link: cardLink.value, 
+  }; 
+  addCard(card) 
+    .then((data) => { 
+      cardsContainer.prepend( 
+        createCard(data.owner._id, data._id, data.link, data.name, data.likes, deleteCard, likeCard, handleImageClick) 
+      ); 
+      closePopup(cardPopup); 
+    }) 
+    .catch((error) => console.log(error)) 
+    .finally(() => { 
+      evt.submitter.textContent = "Создать"; 
+    }); 
+} 
+
+function submitEditProfile(evt) { 
+  evt.preventDefault(); 
+  evt.submitter.textContent = "Сохранение..."; 
+  editUserInfo(profileNameInput.value, profileDescriptionInput.value) 
+    .then((data) => { 
+      renderProfile(); 
+      closePopup(popupProfile); 
+    }) 
+    .catch((error) => console.log(error)) 
+    .finally(() => { 
+      evt.submitter.textContent = "Сохранить"; 
+    }); 
+}
+
+function renderProfile() {
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
-
 }
 
 Promise.all([getUserInfo(), getInitialCards()])
@@ -118,10 +157,11 @@ Promise.all([getUserInfo(), getInitialCards()])
     values[1].forEach((card) => {
       
       let newCard = createCard(
-        card._id, 
+        card.owner._id, 
+        card._id,
         card.link, 
         card.name,
-        card.likes.length,
+        card.likes,
         deleteCard, 
         likeCard, 
         handleImageClick)
@@ -146,6 +186,7 @@ enableValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
-  inactiveButtonClass: '.popup__button-inactive',
-  errorClass: '.popup__input-error_active'
+  inactiveButtonClass: 'popup__button-inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
 }); 

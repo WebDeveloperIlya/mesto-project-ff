@@ -18,6 +18,13 @@ const checkInputValidity = (formElement, inputElement, config) => {
   } else {
     hideInputError(formElement, inputElement, config);
   }
+
+  if (inputElement.validity.patternMismatch) { 
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage); 
+  } 
+  else { 
+    inputElement.setCustomValidity(""); 
+  } 
 };
 
 export const setEventListeners = (formElement, config) => {
@@ -58,11 +65,16 @@ const toggleButtonState = (inputList, buttonElement, config) => {
   } 
 }
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button-inactive',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-}); 
+
+function clearValidation(formElement, config) { 
+
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector)); 
+  const buttonElement = formElement.querySelector(config.submitButtonSelector); 
+  
+  toggleButtonState(inputList, buttonElement, config); 
+
+  inputList.forEach(input => { 
+    hideInputError(formElement, input, config); 
+  }) 
+
+} 
