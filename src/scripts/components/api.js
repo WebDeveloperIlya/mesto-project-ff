@@ -17,8 +17,6 @@ export const getInitialCards = () => {
       // если ошибка, отклоняем промис
       return Promise.reject(`Ошибка: ${res.status}`);
     })
-
-    .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Запрос данных о пользователе и подставление данных в шапке профиля */
@@ -52,8 +50,6 @@ export const editUserInfo = (name, description) =>{
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
-
-  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Функция добавления карточки на сервер */
@@ -73,8 +69,6 @@ export const addCard = (card) => {
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
-
-  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Удаление карточки с сервера */
@@ -91,8 +85,6 @@ export function deleteServerCard(id, evt){
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
-
-  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Поставить лайк на карточку */
@@ -108,8 +100,6 @@ export function putLikeOnCard(id){
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
-
-  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Удалить лайк с карточки */
@@ -125,8 +115,6 @@ export function removeLikeOnCard(id){
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
-
-  .catch(err => console.log(`Ошибка.....: ${err}`))
 }
 
 /* Смена аватара */
@@ -145,6 +133,4 @@ export function newAvatar(link){
     // если ошибка, отклоняем промис
     return Promise.reject(`Ошибка: ${res.status}`);
   })
-
-  .catch(err => console.log(`Ошибка.....: ${err}`))
 }

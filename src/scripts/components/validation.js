@@ -12,19 +12,23 @@ const hideInputError = (formElement, inputElement, config) => {
   errorElement.textContent = '';
 };
 
+
+
 const checkInputValidity = (formElement, inputElement, config) => {
+  if (inputElement.validity.patternMismatch) { 
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+  } 
+  else { 
+    inputElement.setCustomValidity('');
+  } 
+
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, config);
   } else {
     hideInputError(formElement, inputElement, config);
   }
 
-  if (inputElement.validity.patternMismatch) { 
-    inputElement.setCustomValidity(inputElement.dataset.errorMessage); 
-  } 
-  else { 
-    inputElement.setCustomValidity(""); 
-  } 
+  
 };
 
 export const setEventListeners = (formElement, config) => {

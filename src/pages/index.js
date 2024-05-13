@@ -39,6 +39,15 @@ import {
   popupAvatarInput
 } from '../scripts/components/const.js'
 
+const configValidation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button-inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}
+
 export function handleImageClick(link, name) {
   photoItem.src = link;
   photoItem.alt = name;
@@ -49,14 +58,7 @@ export function handleImageClick(link, name) {
 editAvatarButton.addEventListener('click', function (evt) {
   evt.preventDefault();
   openPopup(popupEditAvatar)
-  clearValidation(document.querySelector('.popup__form-avatar'), {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button-inactive',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__input-error_active'
-  })
+  clearValidation(document.querySelector('.popup__form-avatar'), configValidation)
 })
 
 profileEditButton.addEventListener("click", function () {
@@ -64,27 +66,13 @@ profileEditButton.addEventListener("click", function () {
   profileDescriptionInput.value = profileDescription.textContent
   openPopup(popupProfile);
   
-  clearValidation(profileFormElement, {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button-inactive',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__input-error_active'
-  })
+  clearValidation(profileFormElement, configValidation)
 });
 
 profileAddButton.addEventListener("click", function () {
   openPopup(cardPopup);
 
-  clearValidation(cardFormElement, {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button-inactive',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__input-error_active'
-  })
+  clearValidation(cardFormElement, configValidation)
 });
 
 popupAvatarClose.addEventListener("click", function () {
@@ -116,7 +104,6 @@ cardFormElement.addEventListener("submit", function (evt) {
 });
 
 function submitNewAvatar(evt, input){
-  evt.preventDefault();
   evt.submitter.textContent = "Сохранение..."; 
 
   newAvatar(input)
@@ -129,21 +116,22 @@ function submitNewAvatar(evt, input){
     .finally(() => { 
       evt.submitter.textContent = "Создать"; 
     }); 
+    evt.preventDefault();
 }
 
 
 function submitAddNewCard(evt) { 
-  evt.preventDefault(); 
   evt.submitter.textContent = "Сохранение..."; 
 
   const card = { 
     name: cardName.value, 
     link: cardLink.value, 
   }; 
+
   addCard(card) 
     .then((data) => { 
       cardsContainer.prepend( 
-        createCard(data.owner._id, data._id, data.link, data.name, data.likes, deleteCard, likeCard, handleImageClick) 
+        createCard(data.owner._id, data, deleteCard, likeCard, handleImageClick) 
       ); 
       closePopup(cardPopup); 
     }) 
@@ -151,43 +139,40 @@ function submitAddNewCard(evt) {
     .finally(() => { 
       evt.submitter.textContent = "Создать"; 
     }); 
+    evt.preventDefault();
 } 
 
-function submitEditProfile(evt) { 
-  evt.preventDefault(); 
+function submitEditProfile(evt) {  
   evt.submitter.textContent = "Сохранение..."; 
   editUserInfo(profileNameInput.value, profileDescriptionInput.value) 
     .then((data) => { 
-      renderProfile(); 
+      renderProfile(data.name, data.about); 
       closePopup(popupProfile); 
     }) 
     .catch((error) => console.log(error)) 
     .finally(() => { 
       evt.submitter.textContent = "Сохранить"; 
     }); 
+    evt.preventDefault();
 }
 
-function renderProfile() {
+function renderProfile(name, about) {
   profileName.textContent = profileNameInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
 }
 
 Promise.all([getUserInfo(), getInitialCards()])
   .then((values) => {
-    console.log(values)
-
+    console.log(values[0])
     profileName.textContent = values[0].name;
     profileDescription.textContent = values[0].about;
     editAvatarButton.style.background = `url(${values[0].avatar})`;
-
+    console.log(values[1])
     values[1].forEach((card) => {
       
       let newCard = createCard(
-        card.owner._id, 
-        card._id,
-        card.link, 
-        card.name,
-        card.likes,
+        values[0]._id,
+        card,
         deleteCard, 
         likeCard, 
         handleImageClick)
@@ -208,11 +193,4 @@ formList.forEach((formElement) => {
     });
   })
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button-inactive',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active'
-}); 
+enableValidation(configValidation); 
