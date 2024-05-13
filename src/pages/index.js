@@ -116,7 +116,7 @@ function submitNewAvatar(evt, input){
     .finally(() => { 
       evt.submitter.textContent = "Создать"; 
     }); 
-    evt.preventDefault();
+    document.querySelector('.popup__form-avatar').reset();
 }
 
 
@@ -139,7 +139,7 @@ function submitAddNewCard(evt) {
     .finally(() => { 
       evt.submitter.textContent = "Создать"; 
     }); 
-    evt.preventDefault();
+    cardFormElement.reset();
 } 
 
 function submitEditProfile(evt) {  
@@ -153,7 +153,7 @@ function submitEditProfile(evt) {
     .finally(() => { 
       evt.submitter.textContent = "Сохранить"; 
     }); 
-    evt.preventDefault();
+    profileFormElement.reset();
 }
 
 function renderProfile(name, about) {
