@@ -68,7 +68,7 @@ export function createCard(userId, data, deleteCard, likeCard, handleImageClick 
     cardDeleteButton.addEventListener("click", () => 
       cardDeleteButton
       .addEventListener("click", (evt) => {
-        deleteCard(evt, ownerCardId);
+        deleteCard(evt, cardId);
       })
     ); 
   }  
